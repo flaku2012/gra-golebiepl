@@ -38,12 +38,8 @@
                     <td>---</td>
                     <td>
                         || {{friend}} ||
-                        <form>
-                            <button type="submit">Zaproś do znajomych</button>
-                        </form>
-                        <form>
-                            <button type="submit">Przyjmij zaproszenie</button>
-                        </form>
+                        <button type="button" @click="addToFriend(friend.id)">Zaproś do znajomych</button>
+                        <button type="button">Przyjmij zaproszenie</button>
                     </td>
                 </tr>
             </tbody>
@@ -58,7 +54,7 @@
     import { ref } from "vue";
     import { useFriends } from '@/composables/friends'
 
-    const { friends, errorsSearchFriends, getFriendship, searchFriends } = useFriends()
+    const { friends, errorsSearchFriends, searchFriends, addToFriends } = useFriends()
     const searchQuery = ref('')
 
     async function submit()
@@ -66,8 +62,9 @@
         searchFriends(searchQuery.value)
     }
 
-    console.log(getFriendship(2))
-    
+  
+
+   
 
 
 </script>

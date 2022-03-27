@@ -105,6 +105,7 @@ Route::group(['prefix' => 'friends'], function(){
     Route::get('/search' , [FriendsController::class, 'searchFriends']);
     Route::get('/friendship' , [FriendsController::class, 'friendship']);
     Route::get('/has_friend_invitation' , [FriendsController::class, 'hasFriendInvitation']);
+    Route::get('/add/{user}' , [FriendsController::class, 'hasFriendInvitation']);
 });
 
 

@@ -20,9 +20,7 @@ class FriendsController extends Controller
 
     public function getFriends()
     {
-        $userId = Auth()->id();
-        
-        $request = User::where('id', $userId)->first()->friends;
+        $request = request()->user()->friends;
  
         if( $request )
         {
@@ -35,11 +33,17 @@ class FriendsController extends Controller
 
     }
 
+    
+    public function addFriend(User $user, Request $request)
+    {
+       
+    }
+
     public function searchFriends(Request $request)
     {
         $searchPharse = $request->q;
 
-        $walidator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'q' => 'required|max:50|min:3',
         ], 
         [
@@ -48,12 +52,23 @@ class FriendsController extends Controller
             'required' => 'To pole jest wymagane.',
         ]);
 
-        if ($walidator->fails()) {
-            return response()->json(['errors' => $walidator->errors()], 401);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 401);
         }
 
-        $query = User::where( [['name', 'LIKE', "%{$searchPharse}%"], ['id', '!=', Auth()->id()]])->with('friends')->get();
-        //$query = User::first()->friends;
+        // zobacz metodę getFriends - pobiera wszystkich friendsów tych których ja zaprosiłem i tych którzy mnie - zaakceptowane znajomości
+
+        // w metodzie searchFriends - musi znaleść wszystkich użytkowników o nazwie takiej jaką wpiszę i ich zwrócić
+        // bo chcę w template wyszstkiić wszystkich i dać przyciski: zaakceptuj zaproszenie, usuń ze znajmowcyh, dodaj znajomego
+        // moge ci pokazać co zwraca w postmanie
+
+        $query = User::where('name', 'LIKE', "%{$searchPharse}%")
+            ->where('id', '!=', Auth()->id())
+            ->with('friends')
+            ->get();
+     
+
+    
         return response()->json($query);
     }
 
@@ -89,7 +104,7 @@ class FriendsController extends Controller
         return Friend::where([
             ['user_id', $friendId],
             ['friend_id', Auth()->id()],
-            ['accepted', 0],
+            ['status', Friend::PENDING],
         ])->exists();
     }
 
