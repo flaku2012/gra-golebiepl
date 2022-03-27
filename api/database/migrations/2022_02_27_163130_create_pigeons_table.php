@@ -35,6 +35,7 @@ class CreatePigeonsTable extends Migration
             $table->integer('age')->default(1)->comment('Wiek w dniach');
             $table->string('illness')->default('[]')->comment('Tablica z chorobami');
             $table->string('image_url')->default('')->comment('Link do zdjęcia');
+            $table->boolean('on_show')->default(0)->comment('Widoczność gołębia');
         });
     }
 

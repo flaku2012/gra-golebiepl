@@ -27,15 +27,20 @@ class StoreHouseController extends Controller
 //====================================================================================================
 //====================================================================================================
 
-    public function getStoreHouseByCategory($category)
+    public function getStoreHouseByCategory(Request $request)
     {
-        $storehouseProductsByCategory = StoreHouse::whereRelation('product', 'category', $category)->with('product')->get();
-
-        if( !empty($storehouseProductsByCategory) )
+        
+        $category = $request->category;
+        if( $category )
         {
-            return response()->json($storehouseProductsByCategory);
-        }
+            $storehouseProductsByCategory = StoreHouse::whereHas('product', fn($query) => $query->whereIn('category' ,$category))->with('product')->get();
 
+            if( !empty($storehouseProductsByCategory) )
+            {
+                return response()->json($storehouseProductsByCategory);
+            }
+        }
+        
         return false;
     }
 

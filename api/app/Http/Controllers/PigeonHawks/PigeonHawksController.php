@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\PigeonHawk;
 use App\Models\Storehouse;
+use App\Models\Product;
 
 class PigeonHawksController extends Controller
 {
@@ -156,6 +157,129 @@ class PigeonHawksController extends Controller
             
         }         
 
+    }
+
+//====================================================================================================
+//====================================================================================================
+
+    public function upgradeHawk(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'storehouse_id' => 'required',
+            'pigeonhawk_id' => 'required'
+        ],
+        [
+            'required' => 'To pole jest wymagane!'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 401);
+        }
+
+        $storehouseId = (int)$request->storehouse_id;
+        $pigeonHawkId = (int)$request->pigeonhawk_id;
+
+        $queryStorehouse = Storehouse::where('id', $storehouseId)->with('product')->first();
+        $queryPigeonHawk = PigeonHawk::where('id', $pigeonHawkId)->first();
+
+        if( $queryStorehouse && $queryPigeonHawk && ($queryStorehouse->product->category === 'waterbucket' || $queryStorehouse->product->category === 'construction') )
+        {
+            
+            //sprawdzenie czy jest tyle produktu na magazynie
+            if( $queryStorehouse->quantity < 1 )
+            {
+                return response()->json(['errors' => ['otherError' => 'Nie masz tego na magazynie!']], 401);
+            }
+          
+            //ulepszenie gołębnika
+            switch( $queryStorehouse->product->category ){
+                case 'waterbucket':
+                    $queryPigeonHawk->max_level_water += $queryStorehouse->product->value;
+                    $queryPigeonHawk->save();
+
+                    break;
+                case 'construction':
+                    $queryPigeonHawk->max_quantity_pigeons += $queryStorehouse->product->value;
+                    $queryPigeonHawk->save();
+                    
+                    break;
+            }
+
+            //aktualizacja stanu magayznowego
+            if( $queryStorehouse->quantity-1 > 0 )
+            {
+                $queryStorehouse->quantity -= 1;
+                $queryStorehouse->save();
+            }
+            else
+            {
+                $queryStorehouse->delete();
+            }
+
+            return false;
+
+        }
+
+
+    }
+
+//====================================================================================================
+//====================================================================================================
+
+    public function addGrit(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'pigeonhawk_id' => 'required'
+        ],
+        [
+            'required' => 'To pole jest wymagane!'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 401);
+        }
+
+        $pigeonHawkId = (int)$request->pigeonhawk_id;
+
+        $queryPigeonHawk = PigeonHawk::where('id', $pigeonHawkId)->first();
+        
+        $queryStorehouse = StoreHouse::whereHas('product', fn($query) => $query->whereIn('category' ,['grit']))->with('product')->get();
+
+        //sprawdzenie czy jest gryt na magazynie
+        if( $queryStorehouse )
+        {
+            $quantityToMax = $queryPigeonHawk->max_level_grit - $queryPigeonHawk->level_grit;
+            
+            foreach( $queryStorehouse as $storeHouse )
+            {
+                
+                if( $quantityToMax >= $storeHouse->quantity )
+                {
+                    $quantityToMax -= $storeHouse->quantity;
+                    $levelGritToDatabase = $queryPigeonHawk->max_level_grit - $quantityToMax;
+                    $queryPigeonHawk->level_grit = $levelGritToDatabase;
+                    $queryPigeonHawk->save();
+
+                    $storeHouse->delete();
+                
+                }else{
+                    
+                    $queryPigeonHawk->level_grit += $quantityToMax;
+                    $queryPigeonHawk->save();
+                    
+                    $storeHouse->quantity -= $quantityToMax;
+                    $storeHouse->save();
+                    
+                }
+                
+            }
+
+        }
+
+        return false;
+        
     }
 
 //====================================================================================================

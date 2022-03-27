@@ -205,8 +205,9 @@ const routes = [
         component: Bazar_Moje_oferty
       },
       {
-        path: 'szczegoly_oferty',
-        component: Bazar_Szczegoly_oferty
+        path: 'szczegoly_oferty/:id',
+        component: Bazar_Szczegoly_oferty,
+        name: 'Bazar_Szczegoly_oferty'
       },
     ],
     beforeEnter: (to, from, next) => {

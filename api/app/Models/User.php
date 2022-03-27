@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\User\Work;
 use App\Models\User\Message;
 use App\Models\PigeonHawk;
+use App\Models\Friend;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -56,5 +57,55 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(PigeonHawk::class);
     }
+
+    // RELATIONS FRIENDS
+
+    //new
+    public function friends()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+        ->withPivot('accepted')
+        ;
+    }
+
+    public function getFriendsAttribute()
+    {
+        if ( ! array_key_exists('friends', $this->relations)) $this->loadFriends();
+
+        return $this->getRelation('friends');
+    }
+
+    public function friendsOfMine()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+		->wherePivot('accepted', '=', 1) // to filter only accepted
+        ->withPivot('accepted'); // or to fetch accepted value
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
+		->wherePivot('accepted', '=', 1)
+        ->withPivot('accepted');
+    }
+
+    protected function loadFriends()
+    {
+        if ( ! array_key_exists('friends', $this->relations))
+        {
+            $friends = $this->mergeFriends();
+
+            $this->setRelation('friends', $friends);
+        }
+    }
+
+    protected function mergeFriends()
+    {
+        return $this->friendsOfMine->merge($this->friendOf);
+    }
+
+    // END RELATIONS FRIENDS
+
+
 
 }

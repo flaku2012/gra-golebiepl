@@ -16,7 +16,11 @@ export function useStorehouse() {
     }
 
     const getStorehouseByCategory = async (category) => {
-        axios.get('storehouse/get_storehouse_by_category/'+category)
+        axios.get('storehouse/get_storehouse_by_category/', {
+            params: {
+                category: category
+            }
+            })
             .then(response => {
                 storehouseProducts.value = response.data
             })

@@ -14,37 +14,26 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>flaq2015</td>
-                <td>2</td>
-                <td>2</td>
-                <td>USUN</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>padlina2012</td>
-                <td>32</td>
-                <td>40</td>
-                <td>USUN</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>wiesiek2022</td>
-                <td>134</td>
-                <td>10</td>
-                <td>USUN</td>
+                <tr v-for="friend in friends" :key="friend.id">
+                    <th scope="row">{{friend.key}}</th>
+                    <td>{{friend.name}}</td>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>USUN</td>
                 </tr>
             </tbody>
         </table>  
-        
     </div>
 </template>
 
-<script>
-export default {
+<script setup>
+    import { onMounted } from 'vue'
+    import { useFriends } from '@/composables/friends'
 
-}
+    const { friends, getFriends } = useFriends()
+
+    onMounted( getFriends() )
+
 </script>
 
 <style>

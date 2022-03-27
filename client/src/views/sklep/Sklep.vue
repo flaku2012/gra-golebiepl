@@ -12,13 +12,13 @@
                     <router-link to="/magazyn" class="list-group-item list-group-item-secondary list-group-item-action text-center" active-class="active" >
                     Magazyn
                     </router-link>
-                    <button @click="select_category('food')" class="list-group-item list-group-item-action text-center">Pasze</button>
-                    <button @click="select_category('medicines')" class="list-group-item list-group-item-action text-center">Lekarstwa</button>
-                    <button @click="select_category('grit')" class="list-group-item list-group-item-action text-center">Gryt</button>
-                    <button @click="select_category('ring')" class="list-group-item list-group-item-action text-center">Obrączki</button>
-                    <button @click="select_category('waterbucket')" class="list-group-item list-group-item-action text-center">Podiła</button>
-                    <button @click="select_category('construction')" class="list-group-item list-group-item-action text-center">Budowlanka</button>
-                    <button @click="select_category('tool')" class="list-group-item list-group-item-action text-center">Narzędzia</button>
+                    <button @click="select_category(['food'])" class="list-group-item list-group-item-action text-center">Pasze</button>
+                    <button @click="select_category(['medicines'])" class="list-group-item list-group-item-action text-center">Lekarstwa</button>
+                    <button @click="select_category(['grit'])" class="list-group-item list-group-item-action text-center">Gryt</button>
+                    <button @click="select_category(['ring'])" class="list-group-item list-group-item-action text-center">Obrączki</button>
+                    <button @click="select_category(['waterbucket'])" class="list-group-item list-group-item-action text-center">Podiła</button>
+                    <button @click="select_category(['construction'])" class="list-group-item list-group-item-action text-center">Budowlanka</button>
+                    <button @click="select_category(['tool'])" class="list-group-item list-group-item-action text-center">Narzędzia</button>
                  </div>
             </div>
 

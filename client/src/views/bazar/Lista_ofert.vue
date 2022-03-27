@@ -10,36 +10,37 @@
                 <tr>
                     <th scope="col">Gołąb</th>
                     <th scope="col">Obecna wartość</th>
+                    <th scope="col">Cena Kup Teraz</th>
                     <th scope="col">Do końca</th>
                     <th scope="col">Szczegóły</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Bocian [potencjał: 200 | samica | roczniak]</td>
-                    <td>10</td>
-                    <td>1h 20 min</td>
-                    <td><router-link to="/bazar/szczegoly_oferty" class="text-center">Sprawdź</router-link></td>
-                </tr>
-                <tr>
-                    <td>Wyszwanc [potencjał: 125 | samiec | 2 lata]</td>
-                    <td>25</td>
-                    <td>0h 25 min</td>
-                    <td><router-link to="/bazar/szczegoly_oferty" class="text-center">Sprawdź</router-link></td>
+                <tr v-for="auction in auctions" :key="auction.id">
+                    <td>{{auction.pigeon.name}} [potencjał: {{auction.pigeon.level_potential}} | {{auction.pigeon.sex === 'f' ? 'samica' : 'samiec'}} | {{auction.pigeon.age}} dni]</td>
+                    <td>{{auction.current_price}} zł</td>
+                    <td>{{auction.buy_now_price}} zł</td>
+                    <td>{{auction.end_time_auction}}</td>
+                    <td><router-link :to="{ name: 'Bazar_Szczegoly_oferty', params: { id: auction.id } }">Zobacz!!</router-link></td>
+                    <td><router-link :to="'szczegoly_oferty/'+auction.id" class="text-center">Podgląd</router-link></td>
                 </tr>
                 </tbody>
 
             </table>
         </div>
-
     </div>
   </div>
 </template>
 
-<script>
-export default {
+<script setup>
+    import { onMounted } from "vue";
+    import useMarketplace from '@/composables/marketplace'
 
-}
+    const { auctions, getAuctions } = useMarketplace()
+    
+    onMounted( getAuctions() )
+
+
 </script>
 
 <style>

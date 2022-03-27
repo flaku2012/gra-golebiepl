@@ -12,14 +12,14 @@
                     <router-link to="/sklep" class="list-group-item list-group-item-secondary list-group-item-action text-center" active-class="active" >
                     Sklep
                     </router-link>
-                    <button @click="select_category('food')" class="list-group-item list-group-item-action text-center">Pasze</button>
-                    <button @click="select_category('medicines')" class="list-group-item list-group-item-action text-center">Lekarstwa</button>
-                    <button @click="select_category('grit')" class="list-group-item list-group-item-action text-center">Gryt</button>
-                    <button @click="select_category('ring')" class="list-group-item list-group-item-action text-center">Obrączki</button>
-                    <button @click="select_category('waterbucket')" class="list-group-item list-group-item-action text-center">Poidła</button>
-                    <button @click="select_category('construction')" class="list-group-item list-group-item-action text-center">Budowlanka</button>
-                    <button @click="select_category('tool')" class="list-group-item list-group-item-action text-center">Narzędzia</button>
-                </div>
+                    <button @click="select_category(['food'])" class="list-group-item list-group-item-action text-center">Pasze</button>
+                    <button @click="select_category(['medicines'])" class="list-group-item list-group-item-action text-center">Lekarstwa</button>
+                    <button @click="select_category(['grit'])" class="list-group-item list-group-item-action text-center">Gryt</button>
+                    <button @click="select_category(['ring'])" class="list-group-item list-group-item-action text-center">Obrączki</button>
+                    <button @click="select_category(['waterbucket'])" class="list-group-item list-group-item-action text-center">Poidła</button>
+                    <button @click="select_category(['construction'])" class="list-group-item list-group-item-action text-center">Budowlanka</button>
+                    <button @click="select_category(['tool'])" class="list-group-item list-group-item-action text-center">Narzędzia</button>
+                </div>'
             </div>
 
             <!-- ŚRODEK -->
@@ -116,8 +116,7 @@
             await axios.post('storehouse/product_action',{
                 'storehouse_product_id': storehouseProductId,
                 'pigeon_hawk_id': pigeonHawkId
-            })
-            console.log(storehouseProductId)           
+            })          
         } catch(error){
             console.log(error.response.data)
         }

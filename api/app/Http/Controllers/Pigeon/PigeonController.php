@@ -21,7 +21,7 @@ class PigeonController extends Controller
     public function getUserPigeons($pigeon_hawk_id)
     {
          
-        $pigeons = Pigeon::where('pigeon_hawk_id', $pigeon_hawk_id)->get();
+        $pigeons = Pigeon::where([ ['pigeon_hawk_id', $pigeon_hawk_id], ['on_show', 0]])->get();
     
         abort_if(!$pigeons, 404, "Not found");
 
@@ -37,7 +37,7 @@ class PigeonController extends Controller
     public function getUserPigeon($pigeon_id)
     {
 
-        $pigeon = Pigeon::where( 'id', $pigeon_id )->first();
+        $pigeon = Pigeon::where( [['id', $pigeon_id], ['on_show', 0]] )->first();
         abort_if(!$pigeon, 404, "Not found");
 
         return response()->json($pigeon);

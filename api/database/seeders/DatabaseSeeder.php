@@ -23,12 +23,34 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.pl',
             'password' => Hash::make('admin123'),
             'reset_password_token' => 'ttt',
+            'money' => 5000,
         ]); 
             
 
         DB::table('users')->insert([
             'name' => 'test',
             'email' => 'test@test.pl',
+            'password' => Hash::make('test123'),
+            'reset_password_token' => 'tkl',
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'test2',
+            'email' => 'test2@test.pl',
+            'password' => Hash::make('test123'),
+            'reset_password_token' => 'tkl',
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'test3',
+            'email' => 'test3@test.pl',
+            'password' => Hash::make('test123'),
+            'reset_password_token' => 'tkl',
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'test4',
+            'email' => 'test4@test.pl',
             'password' => Hash::make('test123'),
             'reset_password_token' => 'tkl',
         ]);
@@ -312,6 +334,34 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //end storehouse
+
+        //marketplace
+        DB::table('marketplaces')->insert([
+            'pigeon_id' => 1,
+            'starting_price' => 5,
+            'buy_now_price' => 20,
+            'current_price' => 5,
+            'number_of_offers' => 0,
+            'end_time_auction' => '1647795235'
+        ]);
+
+        DB::table('marketplaces')->insert([
+            'pigeon_id' => 2,
+            'starting_price' => 7,
+            'buy_now_price' => 20,
+            'current_price' => 7,
+            'number_of_offers' => 0,
+            'end_time_auction' => '1647795235'
+        ]);
+     
+        //endmarketplace
+
+        //friend
+        DB::table('friends')->insert([
+            'user_id' => 1,
+            'friend_id' => 2,
+        ]);
+        //end friend
 
     }
 }

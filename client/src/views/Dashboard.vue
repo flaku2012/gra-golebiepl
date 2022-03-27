@@ -28,7 +28,7 @@
                                 </div>
                                 <b>Poziom poideł:</b>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" :style="{width: (pigeonHawk.level_water/pigeonHawk.max_level_water)*100 + '%'}" aria-valuemin="0" aria-valuemax="5">{{(pigeonHawk.level_water/pigeonHawk.max_level_water)*100}} % z {{pigeonHawk.max_level_water}} l
+                                    <div class="progress-bar" role="progressbar" :style="{width: (pigeonHawk.level_water/pigeonHawk.max_level_water)*100 + '%'}" aria-valuemin="0" aria-valuemax="5">{{((pigeonHawk.level_water/pigeonHawk.max_level_water)*100).toFixed(0)}} % z {{pigeonHawk.max_level_water}} l
                                     </div>
                                 </div>
                                 <b>Poziom grytownika:</b>
