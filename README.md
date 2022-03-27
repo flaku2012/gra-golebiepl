@@ -1,2 +1,2 @@
-# auth
+# gra-golebie.pl
  
