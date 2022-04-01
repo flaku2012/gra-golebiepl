@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Pigeon;
+use App\Models\User;
 
 class Pigeon extends Model
 {
@@ -19,6 +20,11 @@ class Pigeon extends Model
         static::addGlobalScope( 'owns', function(Builder $builder){
             $builder->where( 'user_id', auth()->id() );
         });
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function parent_mother()

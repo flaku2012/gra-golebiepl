@@ -2,6 +2,7 @@
     <div>
         <h3 class="text-center">Twoi przyjaciele</h3>
         <router-link to="nowy_przyjaciel" class="btn btn-success btn-sm">Dodaj przyjaciela</router-link>
+        <router-link to="nowy_przyjaciel" class="btn btn-success btn-sm">Utwórz grupę</router-link>
         <hr>
         <table class="table">
             <thead>

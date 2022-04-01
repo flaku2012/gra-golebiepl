@@ -18,10 +18,15 @@ class MarketplaceController extends Controller
 //====================================================================================================
     
     public function getMarketplace()
-    {
-        $marketplace = Marketplace::with('pigeon')->get();
-
+    {       
+        $marketplace = Marketplace::with(['offers', 'pigeon'])->first();
+        
         return response()->json($marketplace);
+
+
+        // stara wersja
+        //$marketplace = Marketplace::with('pigeon')->get();
+        //return response()->json($marketplace);
     }
 
 //====================================================================================================

@@ -62,6 +62,7 @@
         searchFriends(searchQuery.value)
     }
 
+    addToFriends()
   
 
    

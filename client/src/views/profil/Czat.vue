@@ -45,7 +45,7 @@ export default {
 
    
         function fetchMessages(){
-            axios.get('messages').then(response =>{
+            axios.get('czat/messages').then(response =>{
                 messages.value = response.data
             })
         }
@@ -59,7 +59,7 @@ export default {
                 message: newMessage.value
             })
 
-            axios.post('messages', { 
+            axios.post('czat/messages', { 
                 message: newMessage.value 
             })
 

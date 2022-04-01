@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\MeController;
 use App\Http\Controllers\Work\WorkController;
 use App\Http\Controllers\Profile\MessagesController;
+use App\Http\Controllers\Profile\CzatController;
 use App\Http\Controllers\Profile\FriendsController;
 use App\Http\Controllers\PigeonHawks\PigeonHawksController;
 use App\Http\Controllers\Pigeon\PigeonController;
@@ -109,11 +110,20 @@ Route::group(['prefix' => 'friends'], function(){
 });
 
 
-// wiadomości + websocket
-Route::get('messages' , [MessagesController::class, 'fetchMessages']);
-Route::post('messages' , [MessagesController::class, 'sendMessage']);
+// CZAT
+Route::group(['prefix' => 'czat'], function(){
+    Route::get('messages' , [CzatController::class, 'fetchMessages']);
+    Route::post('messages' , [CzatController::class, 'sendMessage']);    
+    Route::get('weryf' , [CzatController::class, 'weryfikacja']);
+});
 
-Route::get('weryf' , [MessagesController::class, 'weryfikacja']);
+//MESSAGES
+Route::group(['prefix' => 'messages'], function(){
+    Route::get('/' , [MessagesController::class, 'getMessages']);
+    Route::post('/send' , [MessagesController::class, 'sendMessage']);  
+    Route::delete('/', [MessagesController::class, 'destroy']);
+});
+
 
 
 // //test JOB

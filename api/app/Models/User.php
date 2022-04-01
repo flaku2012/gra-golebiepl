@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\User\Work;
 use App\Models\User\Message;
+use App\Models\User\Czat;
 use App\Models\PigeonHawk;
 use App\Models\Friend;
 
@@ -48,14 +49,19 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Work::class);
     }
 
-    public function messages()
+    public function czats()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Czat::class);
     }
 
     public function pigeonhawks()
     {
         return $this->hasMany(PigeonHawk::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 
 

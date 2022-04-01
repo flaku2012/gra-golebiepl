@@ -10,68 +10,59 @@
             <thead>
                 <tr>
                 <th scope="col">#</th>
-                <th scope="col">Temat</th>
                 <th scope="col">Nadawca</th>
+                <th scope="col">Temat</th>
+                <th scope="col">Treść</th>
                 <th scope="col">Akcje</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr v-for="message in messages" :key="message.index">
                     <th>
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <input class="form-check-input" type="checkbox" :value="message.id" v-model="deleteArray" name="alld_delete">
                     </th>
-                    <td>Witaj w nowej grze !</td>
                     <td>
-                    <router-link to="#" class="link-dark">administracja</router-link>
+                    <router-link to="#" class="link-dark">{{message.user.name}}</router-link>
                     </td>
-                    <td>ZOBACZ USUN WIADOMOSC</td>
-                </tr>
-                <tr>
-                    <th>
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    </th>
-                    <td>Kupiłeś konto premium !</td>
+                    <td>{{message.thema}}</td>
+                    <td>{{message.message}}</td>
                     <td>
-                    <router-link to="#" class="link-dark">administracja</router-link>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Zobacz
-                        </button>
-                        ZOBACZ USUN WIADOMOSC
+                        <button type="button" class="btn btn-danger btn-sm" @click="deleteMsg(message.id)">Usuń</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-            <button class="btn btn-sm btn-danger">Skasuj zaznaczone</button>
 
-            <!-- Modal ZOBACZ WIADOMOŚĆ -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Kupiłeś konto premium</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Konto premium zostało aktywowane do dnia 13.12.2022 r.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Usuń</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <!-- KONIEC MODAL -->
+            <button class="btn btn-sm btn-danger" @click="deleteSelectMessage()">Skasuj zaznaczone</button>
         
     </div>
 </template>
 
-<script>
-export default {
+<script setup>
+    import { onMounted, ref } from 'vue'
+    import { useProfileMessages } from '@/composables/profile/messages'
 
-}
+    const { messages, getMessages, deleteMessage } = useProfileMessages()
+
+    const deleteArray = ref([])
+
+    onMounted( getMessages() )
+
+    function deleteMsg(id)
+    {
+        deleteMessage([id])
+        getMessages()
+        deleteArray.value = []
+    }
+
+    function deleteSelectMessage()
+    {
+        deleteMessage(deleteArray.value)
+        getMessages()
+        deleteArray.value = []
+    }
+
+
 </script>
 
 <style>

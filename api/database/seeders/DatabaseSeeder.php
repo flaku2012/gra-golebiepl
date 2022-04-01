@@ -340,8 +340,7 @@ class DatabaseSeeder extends Seeder
             'pigeon_id' => 1,
             'starting_price' => 5,
             'buy_now_price' => 20,
-            'current_price' => 5,
-            'number_of_offers' => 0,
+            'current_price' => 15,
             'end_time_auction' => '1647795235'
         ]);
 
@@ -349,12 +348,36 @@ class DatabaseSeeder extends Seeder
             'pigeon_id' => 2,
             'starting_price' => 7,
             'buy_now_price' => 20,
-            'current_price' => 7,
-            'number_of_offers' => 0,
+            'current_price' => 15,
             'end_time_auction' => '1647795235'
         ]);
      
         //endmarketplace
+
+        //marketplace bidder
+
+        DB::table('marketplace_bidders')->insert([
+            'marketplace_id' => 1,
+            'user_id' => 4,
+            'offer_price' => 15,
+            'created_at' => now()
+        ]);
+
+        DB::table('marketplace_bidders')->insert([
+            'marketplace_id' => 1,
+            'user_id' => 5,
+            'offer_price' => 20,
+            'created_at' => now()
+        ]);
+
+        DB::table('marketplace_bidders')->insert([
+            'marketplace_id' => 2,
+            'user_id' => 4,
+            'offer_price' => 15,
+            'created_at' => now()
+        ]);
+
+        //end marketplace bidder
 
         //friend
         DB::table('friends')->insert([
@@ -362,6 +385,21 @@ class DatabaseSeeder extends Seeder
             'friend_id' => 2,
         ]);
         //end friend
+
+        //messages
+        DB::table('messages')->insert([
+            'user_id' => 2,
+            'receiver_id' => 1,
+            'thema' => 'Test1',
+            'message' => 'Testowa wiadomość od użytkownika test1 wysłane do admin1',
+        ]);
+        DB::table('messages')->insert([
+            'user_id' => 1,
+            'receiver_id' => 2,
+            'thema' => 'Test2',
+            'message' => 'Testowa wiadomość od użytkownika admin do test1',
+        ]);
+        //end messages
 
     }
 }

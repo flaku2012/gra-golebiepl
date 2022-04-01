@@ -21,13 +21,13 @@
             <div class="mb-3 row">
                 <label for="temat" class="col-sm-2 col-form-label">Temat</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="temat">
+                <input type="text" class="form-control" id="temat" v-model="form.thema">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="tresc" class="col-sm-2 col-form-label">Treść</label>
                 <div class="col-sm-10">
-                <textarea class="form-control" id="tresc" rows="4"></textarea>
+                <textarea class="form-control" id="tresc" rows="4" v-model="form.message"></textarea>
                 </div>
             </div>
             <div class="form-group row text-center">
@@ -36,14 +36,26 @@
                 </div>
             </div>
         </form>
+
+        || {{form}} ||
+        || {{friends}} ||
         
     </div>
 </template>
 
-<script>
-export default {
+<script setup>
+    import { useFriends } from '@/composables/friends'
+    import { onMounted, reactive } from "vue";
 
-}
+    const { friends, getFriends } = useFriends()
+
+    const form = reactive({
+        thema: '',
+        message: ''
+    })
+
+    onMounted( getFriends() )
+
 </script>
 
 <style>

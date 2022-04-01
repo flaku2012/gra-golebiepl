@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMessagesTable extends Migration
+class CreateMarketplaceBiddersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('marketplace_bidders', function (Blueprint $table) {
             $table->id();
+            $table->integer('marketplace_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('receiver_id')->unsigned();
-            $table->text('thema');
-            $table->text('message');
+            $table->integer('offer_price')->unsigned()->comment('Cena oferowana');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('marketplace_bidders');
     }
 }
